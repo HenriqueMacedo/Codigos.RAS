@@ -1,0 +1,46 @@
+#Criar um dicionário com o nome de pessoas e suas idades 
+#Permitir consultar a idade do nome que o usuário selecionar
+
+#Definindo as variáveis para lista e dicionário
+pessoas = dict()
+grupo = list()
+
+#Loop para a entrada de dados
+while True:
+    #Limpando o dicionário
+    pessoas.clear()
+    #Entrada de informações no dicionário
+    pessoas['nome'] = str(input("Nome da pessoa: "))
+    pessoas['idade'] = int(input("Idade: "))
+    grupo.append(pessoas.copy())
+
+    #Loop para saber se o usuário quer continuar
+    while True:
+        resp = str(input("Quer continuar [S/N]? ")).upper()[0]
+        if resp in 'SN':
+            break
+        print('ERROR! Responda apenas S ou N.')
+    if resp == 'N':
+        break
+print("-=" * 30)
+
+# Exibir a lista de nomes cadastrados
+print("Pessoas cadastradas:")
+for p in grupo:
+    print(f"- {p['nome']}")
+print("-=" * 30)
+
+# Permitir consultar idade
+while True:
+    nome_busca = str(input("Digite o nome para consultar a idade (Digite 'sair' para encerrar): "))
+    if nome_busca.lower() == 'sair':
+        break
+
+    encontrado = False
+    for p in grupo:
+        if p['nome'].lower() == nome_busca.lower():
+            print(f"{p['nome']} tem {p['idade']} anos.")
+            encontrado = True
+            break
+    else:
+        print("Nome não encontrado. Tente novamente")

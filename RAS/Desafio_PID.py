@@ -14,9 +14,9 @@ class InvertedPendulum:
             self.theta_dot = 0.0
             self.theta_ref = np.pi * 0.7
 
-            self.kp = 0.0
-            self.ki = 0.0
-            self.kd = 0.0
+            self.kp = 50.0
+            self.ki = 50.0
+            self.kd = 30.0
             self.prev_error = 0.0
             self.action_p = 0.0
             self.action_i = 0.0
@@ -27,14 +27,14 @@ class InvertedPendulum:
 
         error = (self.theta - self.theta_ref)
         self.action_p = self.kp * error
-        self.action_i += (1/self.ki) * error
+        self.action_i += (1 / self.ki) * error
         self.action_d = self.kd * (error - self.prev_error)
 
         torque = self.action_p + self.action_i + self.action_d
 
         self.prev_error = error
 
-    return torque
+        return torque
 
     def stop(self):
         torque = self.pid_control()
@@ -67,7 +67,7 @@ class PendulumApp:
                 if event.type == pygame.QUIT:
                     running = False
 
-            self.sim.step()
+            self.sim.stop()
             self.render()
 
         pygame.quit()
@@ -76,16 +76,16 @@ class PendulumApp:
     def render(self):
         self.screen.fill((255, 255, 255))
 
-        x = self.length px * np.sin(self.sim.theta)
+        x = self.length_px * np.sin(self.sim.theta)
         y = self.length_px * np.cos(self.sim.theta)
         end_pos = (int(self.origin[0] + x), int(self.origin[1] - y))
 
         x_ref = self.length_px * np.sin(self.sim.theta_ref) 
-        y_ref = self.length_px np.cos(self.sim.theta ref)
-        ref pos = (int(self.origin[0] + x_ref), int(self.origin[1] - y_ref))
+        y_ref = self.length_px * np.cos(self.sim.theta_ref)
+        ref_pos = (int(self.origin[0] + x_ref), int(self.origin[1] - y_ref))
 
-        pygame.draw.line(self.screen, (0, 0, 0), self.origin, end pos, 5)
-        pygame.draw.circle(self.screen, (0, 0, 255), end pos, 10)
+        pygame.draw.line(self.screen, (0, 0, 0), self.origin, end_pos, 5)
+        pygame.draw.circle(self.screen, (0, 0, 255), end_pos, 10)
         
         pygame.draw.line(self.screen, (255, 0, 0), self.origin, ref_pos, 2)
 

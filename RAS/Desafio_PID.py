@@ -14,9 +14,9 @@ class InvertedPendulum:
             self.theta_dot = 0.0
             self.theta_ref = np.pi * 0.7
 
-            self.kp = 0.0
-            self.ki = 0.0
-            self.kd = 0.0
+            self.kp = 20.0
+            self.ki = 2.0
+            self.kd = 15.0
             self.prev_error = 0.0
             self.action_p = 0.0
             self.action_i = 0.0

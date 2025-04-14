@@ -14,9 +14,9 @@ class InvertedPendulum:
             self.theta_dot = 0.0
             self.theta_ref = np.pi * 0.7
 
-            self.kp = 30.0
-            self.ki = 1.0
-            self.kd = 0.0
+            self.kp = 40.0
+            self.ki = 4.0
+            self.kd = 30.0
             self.prev_error = 0.0
             self.action_p = 0.0
             self.action_i = 0.0
@@ -25,9 +25,9 @@ class InvertedPendulum:
 
     def pid_control(self):
 
-        error = (self.theta - self.theta_ref)
+        error = (self.theta_ref - self.theta)
         self.action_p = self.kp * error
-        self.action_i += (1 / self.ki) * error
+        self.action_i += self.ki * error * self.dt
         self.action_d = self.kd * (error - self.prev_error)
 
         torque = self.action_p + self.action_i + self.action_d
@@ -39,8 +39,8 @@ class InvertedPendulum:
     def stop(self):
         torque = self.pid_control()
         theta_ddot = (self.g / self.L) * np.sin(self.theta) + \
-                     (1/ (self.m * self.L * 2)) * torque - \
-                     (self.b / (self.m * self.L * 2)) * self.theta_dot
+                     (1/ (self.m * self.L ** 2)) * torque - \
+                     (self.b / (self.m * self.L ** 2)) * self.theta_dot
 
         self.theta_dot += theta_ddot * self.dt
         self.theta += self.theta_dot * self.dt

@@ -2,11 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Função para calcular os parâmetros PID usando a alocação de pólos
+# Pólos desejados: s = -zeta*omega_n ± j*omega_n*sqrt(1 - zeta^2)
 def calcular_PID(zetas, omegas_n):
-    # Assumindo um sistema de segunda ordem simples para o PID (sem atraso)
-    # Calcular os parâmetros PID com base nas fórmulas para sistemas de segunda ordem
-    # Fórmulas para os pólos:
-    # Pólos desejados: s = -zeta*omega_n ± j*omega_n*sqrt(1 - zeta^2)
     
     # Controlador PID
     K_p = 2 * zetas * omegas_n + 9.81
@@ -37,8 +34,10 @@ def simular_resposta(zetas, omegas_n, K_p, K_i, K_d):
     return K_p, K_i, K_d
 
 # Definindo os valores de zeta e omega_n
-zetas = 0.7  # Taxa de amortecimento
-omegas_n = 2.89  # Frequência natural
+# A taxa de amortecimento é zeta = 2 / frequência natural
+zetas = 0.638  # Taxa de amortecimento
+# A frequência natural é omegas_n = raiz quadrada de g (por ser um sistema de pêndulo)
+omegas_n = 3.13  # Frequência natural
 
 # Calculando os parâmetros PID
 K_p, K_i, K_d = calcular_PID(zetas, omegas_n)
